@@ -1,0 +1,24 @@
+
+stages:
+  - build
+
+build-container:
+  image: docker:20
+  stage: build
+  services:
+    - name: registry.gitlab.com/mostlybroken/dindproxy:latest
+      alias: docker
+  script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+    - docker build -t $IMAGE_TAG -f Dockerfile .
+    - docker push $IMAGE_TAG
+  tags:
+    - MostlyBroken
+    - amd64
+  rules:
+    - if: $CI_COMMIT_BRANCH == "develop"
+      variables:
+        IMAGE_TAG: $CI_REGISTRY_IMAGE:testing
+    - if: $CI_COMMIT_BRANCH == "main"
+      variables:
+        IMAGE_TAG: $CI_REGISTRY_IMAGE:latest

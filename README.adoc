@@ -3,3 +3,41 @@
 
 Synapse Maintenance Container
 
+'''
+
+Docker container with tools for synapse & postgres database maintenance
+
+Matrix room: https://matrix.to/#/#synatainer:c-base.org[#synatainer:c-base.org]
+
+=== What is this?
+
+This docker container is based on https://github.com/matrix-org/rust-synapse-compress-state[] and contains besides the state compressor additional tools and scripts for automated synapse and postgres maintenance.
+
+=== Tools and scripts
+
+* [*] synapse_auto_compressor
+* [*] synapse_compress_state
+* [ ] synatainer.sh
+* [ ] vacuum-db.sh
+
+=== Usage examples
+
+Get/update the container:
+
+    docker pull registry.gitlab.com/mb-saces/synatainer:testing
+
+Run just the auto compressor:
+
+    docker run -it --rm -v /run/postgresql/.s.PGSQL.5432:/run/postgresql/.s.PGSQL.5432 registry.gitlab.com/mb-saces/synatainer:testing synapse_auto_compressor -p "postgresql://db_user:db_password@%2Frun%2Fpostgresql/synapse" -n 100 -c 500
+
+Run the automagic maintenance script:
+
+    docker run -it --rm -v /run/postgresql/.s.PGSQL.5432:/run/postgresql/.s.PGSQL.5432 registry.gitlab.com/mb-saces/synatainer:testing synatainer.sh
+
+== Scripts explained
+
+synatainer.sh::
+[source,shell]
+----
+include::scripts/synatainer.sh[tag=doc]
+----
