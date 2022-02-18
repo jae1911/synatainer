@@ -41,3 +41,9 @@ synatainer.sh::
 ----
 include::scripts/synatainer.sh[tag=doc]
 ----
+
+purge_rooms_no_local_members.sh::
+[source,shell]
+----
+include::scripts/purge_rooms_no_local_members.sh[tag=doc]
+----
