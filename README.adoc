@@ -18,6 +18,9 @@ This docker container is based on https://github.com/matrix-org/rust-synapse-com
 * [*] synapse_auto_compressor
 * [*] synapse_compress_state
 * [ ] synatainer.sh
+* [ ] purge_rooms_no_local_members.sh
+* [ ] remote_cache_purge.sh
+* [ ] purge_history.sh
 * [ ] vacuum-db.sh
 
 === Usage examples
@@ -34,6 +37,16 @@ Run the automagic maintenance script:
 
     docker run -it --rm -v /run/postgresql/.s.PGSQL.5432:/run/postgresql/.s.PGSQL.5432 registry.gitlab.com/mb-saces/synatainer:testing synatainer.sh
 
+=== Configuration
+
+`BEARER_TOKEN` access token with serveradmin privileges +
+`DB_HOST` postgres host name +
+`DB_NAME` postgres database name +
+`DB_USER` postgres database user +
+`DB_PASSWORD` postgres database password +
+`MEDIA_MAX_AGE` number of days before remote media  gets deleted, default 90 +
+`HISTORY_MAX_AGE` number of days before history gets deleted, default 180
+
 == Scripts explained
 
 synatainer.sh::
@@ -46,4 +59,22 @@ purge_rooms_no_local_members.sh::
 [source,shell]
 ----
 include::scripts/purge_rooms_no_local_members.sh[tag=doc]
+----
+
+remote_cache_purge.sh::
+[source,shell]
+----
+include::scripts/remote_cache_purge.sh[tag=doc]
+----
+
+purge_history.sh::
+[source,shell]
+----
+include::scripts/purge_history.sh[tag=doc]
+----
+
+vacuum-db.sh::
+[source,shell]
+----
+include::scripts/vacuum-db.sh[tag=doc]
 ----
