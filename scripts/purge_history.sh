@@ -4,9 +4,13 @@
 # Purge old hostory from all public joinable rooms
 # # end::doc[]
 
-set -ex
+set -eux
 
-exit 1
+CONFIG_FILE=/conf/synatainer.conf && test -f $CONFIG_FILE && source $CONFIG_FILE
+
+echo "Not yet."
+
+exit 0
 
 #!/bin/bash
 

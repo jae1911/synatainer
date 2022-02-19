@@ -13,7 +13,7 @@ Matrix room: https://matrix.to/#/#synatainer:c-base.org[#synatainer:c-base.org]
 
 This docker container is based on https://github.com/matrix-org/rust-synapse-compress-state[] and contains besides the state compressor additional tools and scripts for automated synapse and postgres maintenance.
 
-=== Tools and scripts
+=== Tools and Scripts
 
 * [*] synapse_auto_compressor
 * [*] synapse_compress_state
@@ -23,7 +23,7 @@ This docker container is based on https://github.com/matrix-org/rust-synapse-com
 * [ ] purge_history.sh
 * [ ] vacuum-db.sh
 
-=== Usage examples
+=== Quick Start Usage Examples
 
 Get/update the container:
 
@@ -35,17 +35,41 @@ Run just the auto compressor:
 
 Run the automagic maintenance script:
 
-    docker run -it --rm -v /run/postgresql/.s.PGSQL.5432:/run/postgresql/.s.PGSQL.5432 registry.gitlab.com/mb-saces/synatainer:testing synatainer.sh
+    docker run -it --rm -v /run/postgresql/.s.PGSQL.5432:/run/postgresql/.s.PGSQL.5432 -v /local/path/to/conf:/conf/synatainer.conf registry.gitlab.com/mb-saces/synatainer:testing synatainer.sh
 
 === Configuration
+
+Config can be passed as file or environment variables. +
+Mount the config file to /conf/synatainer.conf
+
+    docker run -it --rm -v /local/path/to/conf:/conf/synatainer.conf ...
+
+Enironment variables:
 
 `BEARER_TOKEN` access token with serveradmin privileges +
 `DB_HOST` postgres host name +
 `DB_NAME` postgres database name +
 `DB_USER` postgres database user +
 `DB_PASSWORD` postgres database password +
+`SYNAPSE_HOST` synapse admin api, default http://127.0.0.1:8008 +
 `MEDIA_MAX_AGE` number of days before remote media  gets deleted, default 90 +
 `HISTORY_MAX_AGE` number of days before history gets deleted, default 180
+
+Example config file:
+
+----
+
+# Comment
+BEARER_TOKEN=<token>
+DB_HOST=/run/postgresql/.s.PGSQL.5432
+DB_NAME=synapse
+DB_USER=synapse_user
+DB_PASSWORD=very_secret
+SYNAPSE_HOST=http://127.0.0.1:8008
+MEDIA_MAX_AGE=90
+HISTORY_MAX_AGE=180
+
+----
 
 == Scripts explained
 
