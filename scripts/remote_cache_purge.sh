@@ -9,6 +9,8 @@ set -eux
 
 CONFIG_FILE=/conf/synatainer.conf && test -f $CONFIG_FILE && source $CONFIG_FILE
 
+before_ts=$(expr $(date '+%s') - $(expr ${MEDIA_MAX_AGE:-90} \* 86400))
+
 curl --header "Authorization: Bearer $BEARER_TOKEN" \
     -X POST -H "Content-Type: application/json" -d "{}" \
-    "${SYNAPSE_HOST:-http://127.0.0.1:8008}/_synapse/admin/v1/purge_media_cache?before_ts="`date --date="${MEDIA_MAX_AGE:-90} days ago" +%s`'000'
+    "${SYNAPSE_HOST:-http://127.0.0.1:8008}/_synapse/admin/v1/purge_media_cache?before_ts=${before_ts}000"
