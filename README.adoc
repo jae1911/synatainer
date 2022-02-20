@@ -63,7 +63,7 @@ Example config file:
 
 # Comment
 BEARER_TOKEN=<token>
-DB_HOST=/run/postgresql/.s.PGSQL.5432
+DB_HOST=/run/postgresql
 DB_NAME=synapse
 DB_USER=synapse_user
 DB_PASSWORD=very_secret
