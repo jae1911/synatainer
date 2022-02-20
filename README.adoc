@@ -53,7 +53,9 @@ Enironment variables:
 `DB_PASSWORD` postgres database password +
 `SYNAPSE_HOST` synapse admin api, default http://127.0.0.1:8008 +
 `MEDIA_MAX_AGE` number of days before remote media  gets deleted, default 90 +
-`HISTORY_MAX_AGE` number of days before history gets deleted, default 180
+`HISTORY_MAX_AGE` number of days before history gets deleted, default 180 +
+`STATE_AUTOCOMPRESSOR_CHUNKS_TO_COMPRESS` default 100 +
+`STATE_AUTOCOMPRESSOR_CHUNK_SIZE` default 500
 
 Example config file:
 
@@ -68,6 +70,8 @@ DB_PASSWORD=very_secret
 SYNAPSE_HOST=http://127.0.0.1:8008
 MEDIA_MAX_AGE=90
 HISTORY_MAX_AGE=180
+STATE_AUTOCOMPRESSOR_CHUNKS_TO_COMPRESS=100
+STATE_AUTOCOMPRESSOR_CHUNK_SIZE=500
 
 ----
 

@@ -20,6 +20,6 @@ purge_rooms_no_local_members.sh
 
 purge_history.sh
 
-synapse_auto_compressor -p "postgresql://$DB_USER:$DB_PASSWORD@$DB_HOST/synapse" -n 100 -c 500
+synapse_auto_compressor -p "user=$DB_USER password=$DB_PASSWORD dbname=$DB_NAME host=$DB_HOST" -n ${STATE_AUTOCOMPRESSOR_CHUNKS_TO_COMPRESS:-100} -c ${STATE_AUTOCOMPRESSOR_CHUNK_SIZE:-500}
 
 vacuum-db.sh
