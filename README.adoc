@@ -13,15 +13,18 @@ Matrix room: https://matrix.to/#/#synatainer:c-base.org[#synatainer:c-base.org]
 
 This docker container is based on https://github.com/matrix-org/rust-synapse-compress-state[] and contains besides the state compressor additional tools and scripts for automated synapse and postgres maintenance.
 
+This container is under havy development, so things may change.
+
 === Tools and Scripts
 
 * [*] synapse_auto_compressor
 * [*] synapse_compress_state
 * [ ] synatainer.sh
-* [ ] purge_rooms_no_local_members.sh
-* [ ] remote_cache_purge.sh
+* [ ] background-service.sh
+* [*] purge_rooms_no_local_members.sh
+* [*] remote_cache_purge.sh
 * [ ] purge_history.sh
-* [ ] vacuum-db.sh
+* [*] vacuum-db.sh
 
 === Quick Start Usage Examples
 
@@ -36,6 +39,10 @@ Run just the auto compressor:
 Run the automagic maintenance script:
 
     docker run -it --rm -v /run/postgresql/.s.PGSQL.5432:/run/postgresql/.s.PGSQL.5432 -v /local/path/to/conf:/conf/synatainer.conf registry.gitlab.com/mb-saces/synatainer:testing synatainer.sh
+
+Run the automagic maintenance background service:
+
+    docker run -it --rm -v /run/postgresql/.s.PGSQL.5432:/run/postgresql/.s.PGSQL.5432 -v /local/path/to/conf:/conf/synatainer.conf registry.gitlab.com/mb-saces/synatainer:testing background-service.sh
 
 === Configuration
 
@@ -76,6 +83,12 @@ STATE_AUTOCOMPRESSOR_CHUNK_SIZE=500
 ----
 
 == Scripts explained
+
+background-service.sh::
+[source,shell]
+----
+include::scripts/background-service.sh[tag=doc]
+----
 
 synatainer.sh::
 [source,shell]
