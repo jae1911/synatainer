@@ -5,7 +5,7 @@
 # Default: 90
 # # end::doc[]
 
-set -eux
+set -eu
 
 CONFIG_FILE=/conf/synatainer.conf && test -f $CONFIG_FILE && source $CONFIG_FILE
 
