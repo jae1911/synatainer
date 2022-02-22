@@ -78,6 +78,11 @@ Mount this file to /conf/pgpassword with permission 0600. Alternatively you can 
 The background service is driven by cron, configuring it via environment variables can be a beast. Lets see how it evolves… +
 The default configuration should be fine for average servers.
 
+[source,shell]
+----
+include::scripts/background-service.sh[tag=doc]
+----
+
 To gain full control, you can mount your own /etc/crontabs/root file.
 
 ==== Service Configuration
