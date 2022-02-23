@@ -78,6 +78,13 @@ Mount this file to /conf/pgpassword with permission 0600. Alternatively you can 
 The background service is driven by cron, configuring it via environment variables can be a beast. Lets see how it evolves… +
 The default configuration should be fine for average servers.
 
+To enable email notification, set
+
+`MAILTO` recipient address +
+`SMTPHOST` mailserver to use
+
+Default schedule:
+
 [source,shell]
 ----
 include::scripts/background-service.sh[tag=doc]
@@ -85,14 +92,14 @@ include::scripts/background-service.sh[tag=doc]
 
 To gain full control, you can mount your own /etc/crontabs/root file.
 
-==== Service Configuration
+==== Miscellaneous Configuration
 
 Enironment variables:
 
 `MEDIA_MAX_AGE` number of days before remote media  gets deleted, default 90 +
 `HISTORY_MAX_AGE` number of days before history gets deleted, default 180 +
 `STATE_AUTOCOMPRESSOR_CHUNKS_TO_COMPRESS` default 100 +
-`STATE_AUTOCOMPRESSOR_CHUNK_SIZE` default 500
+`STATE_AUTOCOMPRESSOR_CHUNK_SIZE` default 500 +
 `STATE_AUTOCOMPRESSOR_CHUNKS_TO_COMPRESS_BIG` default 300 +
 `STATE_AUTOCOMPRESSOR_CHUNK_SIZE_BIG` default 1500
 

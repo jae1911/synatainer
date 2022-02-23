@@ -31,12 +31,19 @@ if [ ! -f $LOCK_FILE ]; then
   ln /usr/local/bin/autocompressor-big.sh /etc/periodic/monthly
   ln /usr/local/bin/vacuum-db.sh /etc/periodic/monthly
 
+  if [ -n $MAILTO ]; then
+    (echo "MAILTO=$MAILTO"; crontab -l) | crontab -
+  fi
+
   touch $LOCK_FILE
 
 fi
 
+
+crontab -l
+
 echo "Starting cron."
 
-crond -f -l 8 -L /var/log/crond
+crond -f -l 8
 
 echo "cron stopped unexpexted."
