@@ -31,6 +31,10 @@ if [ ! -f $LOCK_FILE ]; then
   ln /usr/local/bin/autocompressor-big.sh /etc/periodic/monthly
   ln /usr/local/bin/vacuum-db.sh /etc/periodic/monthly
 
+  if [ -n $MAILFROM ]; then
+    (echo "MAILFROM=$MAILFROM"; crontab -l) | crontab -
+  fi
+
   if [ -n $MAILTO ]; then
     (echo "MAILTO=$MAILTO"; crontab -l) | crontab -
   fi

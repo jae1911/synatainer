@@ -81,6 +81,7 @@ The default configuration should be fine for average servers.
 To enable email notification, set
 
 `MAILTO` recipient address +
+`MAILFROM` use this sender adress +
 `SMTPHOST` mailserver to use
 
 Default schedule:
