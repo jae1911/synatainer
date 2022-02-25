@@ -2,7 +2,7 @@
 stages:
   - build
 
-build-container:
+develop-container:
   image: docker:20
   stage: build
   services:
@@ -19,6 +19,44 @@ build-container:
     - if: $CI_COMMIT_BRANCH == "develop"
       variables:
         IMAGE_TAG: $CI_REGISTRY_IMAGE:testing
-    - if: $CI_COMMIT_BRANCH == "main"
-      variables:
-        IMAGE_TAG: $CI_REGISTRY_IMAGE:latest
+
+release-container:
+  image: docker:20
+  stage: build
+  services:
+    - name: registry.gitlab.com/mostlybroken/dindproxy:latest
+      alias: docker
+  variables:
+    IMAGE_NAME: $CI_REGISTRY_IMAGE
+  script:
+    - major=`echo ${CI_COMMIT_TAG:1} | cut -d. -f1`
+    - minor=`echo $CI_COMMIT_TAG | cut -d. -f2`
+    - patch=`echo $CI_COMMIT_TAG | cut -d. -f3`
+
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+    - docker build -t $IMAGE_NAME:$major.$minor.$patch -f Dockerfile .
+    - docker push $IMAGE_NAME:$major.$minor.$patch
+
+    - if [ -n "${patch//[0-9]}" ]; then
+        echo "Patch have some suffix (${patch}). Bye.";
+        exit 0;
+      fi
+
+    - echo " -> tagging versions."
+    - docker tag $IMAGE_NAME:$major.$minor.$patch $IMAGE_NAME:$major.$minor
+    - docker push $IMAGE_NAME:$major.$minor
+    - docker tag $IMAGE_NAME:$major.$minor.$patch $IMAGE_NAME:$major
+    - docker push $IMAGE_NAME:$major
+
+    - if [ $major -lt 0 ]; then
+        echo "Old major, not tagging latest. Bye.";
+        exit 0;
+      fi
+
+    - docker tag $IMAGE_NAME:$major.$minor.$patch $IMAGE_NAME:latest
+    - docker push $IMAGE_NAME:latest
+  tags:
+    - MostlyBroken
+    - amd64
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v\d+.\d+.\d+/'
