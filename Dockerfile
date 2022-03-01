@@ -6,3 +6,7 @@ COPY scripts/ /usr/local/bin
 
 #sendmail from hack
 COPY sendmail.wrapper /usr/local/sbin/sendmail
+
+COPY entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT [ "/entrypoint.sh" ]
