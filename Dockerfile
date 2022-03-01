@@ -8,5 +8,6 @@ COPY scripts/ /usr/local/bin
 COPY sendmail.wrapper /usr/local/sbin/sendmail
 
 COPY entrypoint.sh /entrypoint.sh
+COPY setup-crontab.sh /setup-crontab.sh
 
 ENTRYPOINT [ "/entrypoint.sh" ]
