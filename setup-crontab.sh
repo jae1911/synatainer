@@ -6,7 +6,7 @@ set -eu
 
 CONFIG_FILE=/conf/synatainer.conf && test -f $CONFIG_FILE && source $CONFIG_FILE
 
-(echo "* * * * * /usr/local/bin/synatainer.sh") | crontab -
+(echo "* 2 * * * /usr/local/bin/synatainer.sh") | crontab -
 
 if [ -n "${MAILTO:-}" ]; then
   (echo "MAILTO=$MAILTO"; crontab -l) | crontab -
