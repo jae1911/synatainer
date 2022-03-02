@@ -1,18 +1,18 @@
 #!/bin/sh
 
 # tag::doc[]
-# Automagic synapse maintenance script.
-# What it does (default):
-#    daily:
-#      purge all rooms without local members
-#      run the state autocompressor (small setting)
-#    weekly:
-#      delete old remote media
-#      delete old message history
-#    monthly:
-#      run the state autocompressor (big setting)
-#      vacuum the database
-# # end::doc[]
+# Synapse maintenance script.
+# What it does:
+#     purge all rooms without local members
+#     run the state autocompressor (small setting)
+#     delete old remote media
+#     delete old message history
+#     run the state autocompressor (big setting)
+#     vacuum the database
+#
+# Usage: synatainer.sh [emergency]
+#     emergency: do a complete service run with settings to free as much space as possible 
+# end::doc[]
 
 set -eu
 
