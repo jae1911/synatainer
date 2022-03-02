@@ -20,7 +20,6 @@ This container is under havy development, so things may change.
 * [*] synapse_auto_compressor
 * [*] synapse_compress_state
 * [ ] synatainer.sh
-* [ ] background-service.sh
 * [*] purge_rooms_no_local_members.sh
 * [*] remote_cache_purge.sh
 * [ ] purge_history.sh
@@ -36,13 +35,13 @@ Run just the auto compressor:
 
     docker run -it --rm -v /run/postgresql/.s.PGSQL.5432:/run/postgresql/.s.PGSQL.5432 registry.gitlab.com/mb-saces/synatainer:testing synapse_auto_compressor -p "postgresql://db_user:db_password@%2Frun%2Fpostgresql/synapse" -n 100 -c 500
 
-Run the automagic maintenance script:
+Run the automagic maintenance script manually:
 
     docker run -it --rm -v /run/postgresql/.s.PGSQL.5432:/run/postgresql/.s.PGSQL.5432 -v /local/path/to/conf:/conf/synatainer.conf registry.gitlab.com/mb-saces/synatainer:testing synatainer.sh
 
 Run the automagic maintenance background service:
 
-    docker run -it --rm -v /run/postgresql/.s.PGSQL.5432:/run/postgresql/.s.PGSQL.5432 -v /local/path/to/conf:/conf/synatainer.conf registry.gitlab.com/mb-saces/synatainer:testing background-service.sh
+    docker run -it --rm -v /run/postgresql/.s.PGSQL.5432:/run/postgresql/.s.PGSQL.5432 -v /local/path/to/conf:/conf/synatainer.conf registry.gitlab.com/mb-saces/synatainer:testing
 
 === Configuration
 
@@ -88,7 +87,7 @@ Default schedule:
 
 [source,shell]
 ----
-include::scripts/background-service.sh[tag=doc]
+include::scripts/synatainer.sh[tag=doc]
 ----
 
 To gain full control, you can mount your own /etc/crontabs/root file.
@@ -123,12 +122,6 @@ STATE_AUTOCOMPRESSOR_CHUNK_SIZE=500
 ----
 
 == Scripts explained
-
-background-service.sh::
-[source,shell]
-----
-include::scripts/background-service.sh[tag=doc]
-----
 
 synatainer.sh::
 [source,shell]

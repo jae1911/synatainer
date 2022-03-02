@@ -1,13 +1,17 @@
-#!/bin/bash
+#!/bin/sh
 
 # tag::doc[]
 # Automagic synapse maintenance script.
-# What it does:
-#    delete old remote media
-#    purge all rooms without local members
-#    delete old message history
-#    run the state autocompressor
-#    vacuum the database
+# What it does (default):
+#    daily:
+#      purge all rooms without local members
+#      run the state autocompressor (small setting)
+#    weekly:
+#      delete old remote media
+#      delete old message history
+#    monthly:
+#      run the state autocompressor (big setting)
+#      vacuum the database
 # # end::doc[]
 
 set -eu
