@@ -16,3 +16,5 @@ echo "Purge remote media cache older than ${MEDIA_MAX_AGE} days."
 curl -sSL --header "Authorization: Bearer $BEARER_TOKEN" \
     -X POST -H "Content-Type: application/json" -d "{}" \
     "${SYNAPSE_HOST:-http://127.0.0.1:8008}/_synapse/admin/v1/purge_media_cache?before_ts=${before_ts}000"
+
+echo -e "\nDone."
