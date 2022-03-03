@@ -25,13 +25,13 @@ CONFIG_FILE=/conf/synatainer.conf && test -f $CONFIG_FILE && source $CONFIG_FILE
 purge_rooms_no_local_members.sh
 
 # weekly, monday
-if [ (date '+%u') -eq 1 ]; then
+if [ $(date '+%u') -eq 1 ]; then
   remote_cache_purge.sh
   purge_history.sh
 fi
 
 # monthly, first
-if [ (date '+%d') -eq 1 ]; then
+if [ $(date '+%d') -eq 1 ]; then
   autocompressor-big.sh
   vacuum-db.sh
 else
