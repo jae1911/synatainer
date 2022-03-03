@@ -27,6 +27,9 @@ This container is under havy development, so things may change.
 
 === Quick Start Usage Examples
 
+Docker compose examples: https://gitlab.com/mb-saces/synatainer/-/snippets/2264828[]
+
+
 Get/update the container:
 
     docker pull registry.gitlab.com/mb-saces/synatainer:testing
