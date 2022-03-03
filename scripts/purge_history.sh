@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # tag::doc[]
 # Purge old hostory from all public joinable rooms
@@ -8,32 +8,19 @@ set -eu
 
 CONFIG_FILE=/conf/synatainer.conf && test -f $CONFIG_FILE && source $CONFIG_FILE
 
-echo "Not yet."
+before_ts=$(expr $(date '+%s') - $(expr ${HISTORY_MAX_AGE:-180} \* 86400))
 
-exit 0
+room_list=$(curl -sSL --header "Authorization: Bearer $BEARER_TOKEN" \
+    "${SYNAPSE_HOST:-http://127.0.0.1:8008}/_synapse/admin/v1/rooms?limit=1000" | jq -r '.rooms[] | select(.federatable == true and .canonical_alias != null) | .room_id')
 
-#!/bin/bash
-
-. mda.config
-
-set -x
-set -e
-
-time_stamp=$(date +%s%3N --date='40 days ago')
-
-
-curl --header "Authorization: Bearer $BEARER_TOKEN" \
-    'http://127.0.0.1:8008/_synapse/admin/v1/rooms?limit=1000' | jq -r '.rooms[] | select(.federatable == true and .canonical_alias != null) | .room_id' > histwipe_rooms.txt
-
-
-while read -r room_id
-do
-  purge_id=$(curl --header "Authorization: Bearer $BEARER_TOKEN" \
-    -X POST -H "Content-Type: application/json" -d "{ \"purge_up_to_ts\": $time_stamp }" "http://127.0.0.1:8008/_synapse/admin/v1/purge_history/${room_id}" | jq -r '.purge_id')
+for room_id in $room_list; do
+  echo "Purge history from room: $room_id"
+  purge_id=$(curl -sSL --header "Authorization: Bearer $BEARER_TOKEN" \
+    -X POST -H "Content-Type: application/json" -d "{ \"purge_up_to_ts\": $before_ts }" "${SYNAPSE_HOST:-http://127.0.0.1:8008}/_synapse/admin/v1/purge_history/${room_id}" | jq -r '.purge_id')
 
   while true ; do
-    status=$(curl -sSLf --header "Authorization: Bearer $BEARER_TOKEN" \
-      "http://127.0.0.1:8008/_synapse/admin/v1/purge_history_status/$purge_id" | jq -r '.status')
+    status=$(curl -sSL --header "Authorization: Bearer $BEARER_TOKEN" \
+      "${SYNAPSE_HOST:-http://127.0.0.1:8008}/_synapse/admin/v1/purge_history_status/$purge_id" | jq -r '.status')
 
     echo "status: $status"
 
@@ -41,12 +28,11 @@ do
       break
     fi
 
-    echo "15 sec pennen..."
-    sleep 15s
+    echo "sleep 5 sec ..."
+    sleep 5s
 
   done
-done < histwipe_rooms.txt
 
+  echo "Done."
 
-
-exit 0
+done
