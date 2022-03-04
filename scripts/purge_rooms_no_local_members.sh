@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # tag::doc[]
 # Purges all rooms without local members from the database

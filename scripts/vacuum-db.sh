@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # tag::doc[]
 # Vacuum the database
