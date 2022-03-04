@@ -22,7 +22,7 @@ This container is under havy development, so things may change.
 * [ ] synatainer.sh
 * [*] purge_rooms_no_local_members.sh
 * [*] remote_cache_purge.sh
-* [ ] purge_history.sh
+* [*] purge_history.sh
 * [*] vacuum-db.sh
 
 === Quick Start Usage Examples
