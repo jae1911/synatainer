@@ -3,15 +3,17 @@ stages:
   - build
 
 develop-container:
-  image: docker:20
+  image: registry.gitlab.com/mostlybroken/robertusfaber/dockerx-linux:latest
   stage: build
   services:
     - name: registry.gitlab.com/mostlybroken/dindproxy:latest
       alias: docker
   script:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
-    - docker build -t $IMAGE_TAG -f Dockerfile .
-    - docker push $IMAGE_TAG
+    - docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+    - docker context create pi-environment
+    - docker buildx create --name multiarch-builder --driver docker-container --use pi-environment
+    - docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile -t $IMAGE_TAG --pull --push .
   tags:
     - MostlyBroken
     - amd64
