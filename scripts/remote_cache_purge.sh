@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # tag::doc[]
 # Purge the remote media cache older than MEDIA_MAX_AGE days.
