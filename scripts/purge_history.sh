@@ -15,8 +15,17 @@ room_list=$(curl -sSL --header "Authorization: Bearer $BEARER_TOKEN" \
 
 for room_id in $room_list; do
   echo "Purge history from room: $room_id"
-  purge_id=$(curl -sSL --header "Authorization: Bearer $BEARER_TOKEN" \
-    -X POST -H "Content-Type: application/json" -d "{ \"purge_up_to_ts\": $before_ts }" "${SYNAPSE_HOST:-http://127.0.0.1:8008}/_synapse/admin/v1/purge_history/${room_id}" | jq -r '.purge_id')
+  purge_res=$(curl -sSL --header "Authorization: Bearer $BEARER_TOKEN" \
+    -X POST -H "Content-Type: application/json" -d "{ \"purge_up_to_ts\": $before_ts }" "${SYNAPSE_HOST:-http://127.0.0.1:8008}/_synapse/admin/v1/purge_history/${room_id}")
+
+  purge_err=$(echo "$purge_res" | jq -r '.error')
+
+  if [ "$purge_err" != "null" ]; then
+    echo "Error: $purge_err"
+    continiue
+  fi
+
+  purge_id=$(echo "$purge_res" | jq -r '.purge_id')
 
   while true ; do
     status=$(curl -sSL --header "Authorization: Bearer $BEARER_TOKEN" \
