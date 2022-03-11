@@ -8,6 +8,7 @@ then
   # if run as root (uid 0), downgrade yourself to nobody (uid 65534)
   if [ $(id -u) -eq 0 ]
   then
+    cd /tmp
     exec su -s /bin/sh nobody -c "$*"
   else
     exec "$@"
