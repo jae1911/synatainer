@@ -3,6 +3,8 @@
 
 Synapse Maintenance Container
 
+Original repo: https://gitlab.com/mb-saces/synatainer
+
 '''
 
 Docker container with tools for synapse & postgres database maintenance
