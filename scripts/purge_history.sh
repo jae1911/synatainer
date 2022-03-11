@@ -22,7 +22,7 @@ for room_id in $room_list; do
 
   if [ "$purge_err" != "null" ]; then
     echo "Error: $purge_err"
-    continiue
+    continue
   fi
 
   purge_id=$(echo "$purge_res" | jq -r '.purge_id')
