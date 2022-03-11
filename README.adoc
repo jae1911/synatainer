@@ -157,3 +157,4 @@ vacuum-db.sh::
 ----
 include::scripts/vacuum-db.sh[tag=doc]
 ----
+
